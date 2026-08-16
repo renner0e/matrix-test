@@ -75,7 +75,7 @@ jobs:
       - name: Image Name
         shell: bash
         env:
-          MATRIX_BASE_NAME: ${{ matrix.base_name }}
+          MATRIX_BASE_NAME: ${{ matrix.image_name }}
           MATRIX_STREAM_NAME: ${{ matrix.stream_name }}
           MATRIX_IMAGE_FLAVOR: ${{ matrix.image_flavor }}
         run: |
