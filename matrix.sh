@@ -5,10 +5,10 @@ set -euox pipefail
 # IMAGE_FLAVORS='["main", "nvidia-open"]'
 # STREAM_NAME='["testing"]'
 # ARCHITECTURES='["amd64", "arm64"]'
+#
+# IMAGES='["aurora", "aurora-dx"]' IMAGE_FLAVORS='["main", "nvidia-open"]' STREAM_NAME='["testing"]' ARCHITECTURES='["amd64", "arm64"]' matrix.sh
 
-echo $IMAGES
-
-jq -cn \
+jq -n \
   --argjson base_names "$IMAGES" \
   --argjson image_flavors "$IMAGE_FLAVORS" \
   --argjson stream_name "$STREAM_NAME" \

@@ -45,7 +45,7 @@ jobs:
           STREAM_NAME: "${{ inputs.stream_name }}"
           ARCHITECTURES: "${{ inputs.architectures }}"
         run: |
-          bash matrix.sh
+          MATRIX=$(bash matrix.sh)
 
           echo "matrix=${MATRIX}" >> $GITHUB_OUTPUT
 
@@ -69,11 +69,6 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-
-      - name: Install Just
-        run: |
-          /home/linuxbrew/.linuxbrew/bin/brew install just
-          echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
 
       - name: Image Name
         shell: bash
