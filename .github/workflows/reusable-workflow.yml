@@ -75,10 +75,10 @@ jobs:
       - name: Image Name
         shell: bash
         env:
-          MATRIX_BASE_NAME: ${{ matrix.image_name }}
+          MATRIX_IMAGE_NAME: ${{ matrix.image_name }}
           MATRIX_STREAM_NAME: ${{ matrix.stream_name }}
           MATRIX_IMAGE_FLAVOR: ${{ matrix.image_flavor }}
         run: |
-          echo ${MATRIX_BASE_NAME}
+          echo ${MATRIX_IMAGE_NAME}
           echo ${MATRIX_STREAM_NAME}
           echo ${MATRIX_IMAGE_FLAVOR}
