@@ -27,19 +27,20 @@ concurrency:
 
 jobs:
   build_container:
-    name: ${{ matrix.group }} (${{ matrix.arch }})
+    name: ${{ matrix.group }} (${{ matrix.architecture }})
     strategy:
       fail-fast: false
       matrix:
-        group:
-        - aurora
-        - aurora-dx
-        - aurora-dx-nvidia-open
-        - aurora-nvidia-open
-        arch:
-        - amd64
-        - arm64
-    runs-on: ${{ matrix.arch == 'amd64' && 'ubuntu-26.04' || 'ubuntu-26.04-arm' }}
+        include:
+          - group: aurora
+            arch: [amd64, arm64]
+          - group: aurora-dx
+            arch: [amd64, arm64]
+          - group: aurora-dx-nvidia-open
+            arch: [amd64, arm64]
+          - group: aurora-nvidia-open
+            arch: [amd64, arm64]
+    runs-on: ${{ matrix.include.group.arch == 'amd64' && 'ubuntu-26.04' || 'ubuntu-26.04-arm' }}
     continue-on-error: false
     steps:
       - name: Checkout
@@ -50,4 +51,5 @@ jobs:
       - name: Image Name
         shell: bash
         run: |
-          echo ${{ matrix.include.group}}
+          echo ${{ matrix.include.group }}
+          echo ${{ matrix.include.group.arch }}
