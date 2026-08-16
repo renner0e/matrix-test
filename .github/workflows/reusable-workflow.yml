@@ -56,7 +56,8 @@ jobs:
     needs: generate_matrix
     strategy:
       fail-fast: false
-      matrix: ${{ fromJSON(needs.generate_matrix.outputs.matrix) }}
+      matrix:
+        architecture: ${{ fromJson(inputs.architecture) }}
     runs-on: ${{ matrix.architecture == 'amd64' && 'ubuntu-26.04' || 'ubuntu-26.04-arm' }}
     continue-on-error: false
     steps:
