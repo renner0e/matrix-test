@@ -1,18 +1,41 @@
 name: Testing Images
 on:
-   merge_group:
-   pull_request:
-     branches:
-       - main
-   workflow_call:
-   workflow_dispatch:
+  merge_group:
+  pull_request:
+    branches:
+      - main
+  workflow_call:
+  workflow_dispatch:
 
 jobs:
-  build-image-testing:
-    name: Build Testing Images
+  aurora:
     uses: ./.github/workflows/reusable-workflow.yml
     with:
-      image_flavors: '["main", "nvidia-open"]'
-      image_names: '["aurora", "aurora-dx"]'
+      image_flavors: '["main"]'
+      image_names: '["aurora"]'
+      stream_name: "testing"
+      architectures: '["amd64", "arm64"]'
+
+  aurora-dx:
+    uses: ./.github/workflows/reusable-workflow.yml
+    with:
+      image_flavors: '["main"]'
+      image_names: '["aurora-dx"]'
+      stream_name: "testing"
+      architectures: '["amd64", "arm64"]'
+
+  aurora-nvidia-open:
+    uses: ./.github/workflows/reusable-workflow.yml
+    with:
+      image_flavors: '["nvidia-open"]'
+      image_names: '["aurora"]'
+      stream_name: "testing"
+      architectures: '["amd64", "arm64"]'
+
+  aurora-dx-nvidia-open:
+    uses: ./.github/workflows/reusable-workflow.yml
+    with:
+      image_flavors: '["nvidia-open"]'
+      image_names: '["aurora-dx"]'
       stream_name: "testing"
       architectures: '["amd64", "arm64"]'
