@@ -40,10 +40,10 @@ jobs:
       - name: Set matrix
         id: set-matrix
         env:
-          IMAGES: "${{ inputs.image_names }}"
-          IMAGE_FLAVORS: "${{ inputs.image_flavors }}"
-          STREAM_NAME: "${{ inputs.stream_name }}"
-          ARCHITECTURES: "${{ inputs.architectures }}"
+          IMAGES: ${{ inputs.image_names }}
+          IMAGE_FLAVORS: ${{ inputs.image_flavors }}
+          STREAM_NAME: ${{ inputs.stream_name }}
+          ARCHITECTURES: ${{ inputs.architectures }}
         run: |
           MATRIX=$(bash matrix.sh)
 
