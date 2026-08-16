@@ -52,12 +52,12 @@ jobs:
           echo "matrix=${MATRIX}" >> $GITHUB_OUTPUT
 
   build_container:
-    name: ${{ matrix.image_name }}-${{ matrix.image_flavor }} (${{ matrix.architectures }})
+    name: ${{ matrix.group }} (${{ matrix.architectures }})
     needs: generate_matrix
     strategy:
       fail-fast: false
       matrix:
-        architecture: ${{ fromJson(inputs.architecture) }}
+        architecture: ${{ fromJson(steps.set-matrix.outputs.matrix.architectures) }}
     runs-on: ${{ matrix.architecture == 'amd64' && 'ubuntu-26.04' || 'ubuntu-26.04-arm' }}
     permissions:
       contents: read
