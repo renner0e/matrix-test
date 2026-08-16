@@ -18,12 +18,11 @@ jq -cn \
     include: [
       $base_names[] as $b |
       $image_flavors[] as $f |
-      $architectures[] as $a |
       {
         image_name: $b,
         image_flavor: $f,
         stream_name: $stream_name,
-        architecture: $a
+        architectures: $architectures
       }
     ]
   }
