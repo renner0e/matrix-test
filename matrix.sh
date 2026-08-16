@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -euox pipefail
 
+# IMAGES='["aurora", "aurora-dx"]'
+# IMAGE_FLAVORS='["main", "nvidia-open"]'
+# STREAM_NAME='["testing"]'
+# ARCHITECTURES='["amd64", "arm64"]'
+
+echo $IMAGES
+
 jq -cn \
   --argjson base_names "$IMAGES" \
   --argjson image_flavors "$IMAGE_FLAVORS" \
