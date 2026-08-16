@@ -31,15 +31,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - group: aurora
-            arch: [amd64, arm64]
-          - group: aurora-dx
-            arch: [amd64, arm64]
-          - group: aurora-dx-nvidia-open
-            arch: [amd64, arm64]
-          - group: aurora-nvidia-open
-            arch: [amd64, arm64]
+        group:
+        - aurora
+        - aurora-dx
+        - aurora-dx-nvidia-open
+        - aurora-nvidia-open
+        arch:
+        - amd64
+        - arm64
     runs-on: ${{ matrix.include.arch == 'amd64' && 'ubuntu-26.04' || 'ubuntu-26.04-arm' }}
     continue-on-error: false
     steps:
