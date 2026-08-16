@@ -7,18 +7,10 @@ on:
    workflow_call:
    workflow_dispatch:
 
-permissions: {}
-
 jobs:
   build-image-testing:
     name: Build Testing Images
     uses: ./.github/workflows/reusable-workflow.yml
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-      attestations: write
-      artifact-metadata: write
     with:
       image_flavors: '["main", "nvidia-open"]'
       image_names: '["aurora", "aurora-dx"]'

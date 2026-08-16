@@ -56,16 +56,8 @@ jobs:
     needs: generate_matrix
     strategy:
       fail-fast: false
-      matrix: 
-        architecture: ${{ fromJson(needs.generate_matrix.outputs.matrix.include.architecture ) }}
+      matrix: ${{ fromJSON(needs.generate_matrix.outputs.matrix) }}
     runs-on: ${{ matrix.architecture == 'amd64' && 'ubuntu-26.04' || 'ubuntu-26.04-arm' }}
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-      attestations: write
-      artifact-metadata: write
-
     continue-on-error: false
     steps:
       - name: Checkout
