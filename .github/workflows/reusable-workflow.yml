@@ -31,14 +31,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        architecture:
-          - amd64
-          - arm64
-        group:
-          - { name: "aurora", image: "aurora" }
-          - { name: "aurora-dx", image: "aurora-dx" }
-          - { name: "aurora-nvidia-open", image: "aurora-nvidia-open" }
-          - { name: "aurora-dx-nvidia-open", image: "aurora-dx-nvidia-open" }
+        include:
+          - group: aurora
+            arch: [amd64, arm64]
+          - group: aurora-dx
+            arch: [amd64, arm64]
+          - group: aurora-dx-nvidia-open
+            arch: [amd64, arm64]
+          - group: aurora-nvidia-open
+            arch: [amd64, arm64]
     runs-on: ${{ matrix.architecture == 'amd64' && 'ubuntu-26.04' || 'ubuntu-26.04-arm' }}
     continue-on-error: false
     steps:
@@ -49,13 +50,5 @@ jobs:
 
       - name: Image Name
         shell: bash
-        env:
-          MATRIX_IMAGE_NAME: ${{ matrix.image_name }}
-          MATRIX_STREAM_NAME: ${{ matrix.stream_name }}
-          MATRIX_IMAGE_FLAVOR: ${{ matrix.image_flavor }}
-          MATRIX_ARCH: ${{ matrix.architecture }}
         run: |
-          echo ${MATRIX_IMAGE_NAME}
-          echo ${MATRIX_STREAM_NAME}
-          echo ${MATRIX_IMAGE_FLAVOR}
-          echo ${MATRIX_ARCH}
+          echo ${{ matrix.include.group}}
