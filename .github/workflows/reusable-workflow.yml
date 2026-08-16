@@ -27,7 +27,7 @@ concurrency:
 
 jobs:
   build_container:
-    name: ${{ matrix.group }} (${{ matrix.architecture }})
+    name: ${{ matrix.group }} (${{ matrix.arch }})
     strategy:
       fail-fast: false
       matrix:
@@ -39,7 +39,7 @@ jobs:
         arch:
         - amd64
         - arm64
-    runs-on: ${{ matrix.include.arch == 'amd64' && 'ubuntu-26.04' || 'ubuntu-26.04-arm' }}
+    runs-on: ${{ matrix.arch == 'amd64' && 'ubuntu-26.04' || 'ubuntu-26.04-arm' }}
     continue-on-error: false
     steps:
       - name: Checkout
