@@ -26,38 +26,19 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  generate_matrix:
-    runs-on: ubuntu-slim
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: Set matrix
-        id: set-matrix
-        env:
-          IMAGES: ${{ inputs.image_names }}
-          IMAGE_FLAVORS: ${{ inputs.image_flavors }}
-          STREAM_NAME: ${{ inputs.stream_name }}
-          ARCHITECTURES: ${{ inputs.architectures }}
-        run: |
-          MATRIX=$(bash matrix.sh)
-
-          echo $MATRIX | jq -r
-
-          echo "matrix=${MATRIX}" >> $GITHUB_OUTPUT
-
   build_container:
     name: ${{ matrix.group }} (${{ matrix.architecture }})
-    needs: generate_matrix
     strategy:
       fail-fast: false
       matrix:
-        architecture: ${{ fromJson(inputs.architecture) }}
+        group:
+          - aurora
+          - aurora-dx
+          - aurora-nvidia-open
+          - aurora-dx-nvidia-open
+        architecture:
+          - amd64
+          - arm64
     runs-on: ${{ matrix.architecture == 'amd64' && 'ubuntu-26.04' || 'ubuntu-26.04-arm' }}
     continue-on-error: false
     steps:
