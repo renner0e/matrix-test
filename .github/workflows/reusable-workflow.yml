@@ -45,7 +45,7 @@ jobs:
           STREAM_NAME: "${{ inputs.stream_name }}"
           ARCHITECTURES: "${{ inputs.architectures }}"
         run: |
-          matrix.sh
+          bash matrix.sh
 
           echo "matrix=${MATRIX}" >> $GITHUB_OUTPUT
 
