@@ -82,7 +82,6 @@ jobs:
           MATRIX_STREAM_NAME: ${{ matrix.stream_name }}
           MATRIX_IMAGE_FLAVOR: ${{ matrix.image_flavor }}
         run: |
-          IMAGE_NAME="$(just image_name \
-                      --image ${MATRIX_BASE_NAME} \
-                      --tag ${MATRIX_STREAM_NAME} \
-                      --flavor ${MATRIX_IMAGE_FLAVOR})"
+          echo ${MATRIX_BASE_NAME}
+          echo ${MATRIX_STREAM_NAME}
+          echo ${MATRIX_IMAGE_FLAVOR}
