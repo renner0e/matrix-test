@@ -71,7 +71,9 @@ jobs:
           MATRIX_IMAGE_NAME: ${{ matrix.image_name }}
           MATRIX_STREAM_NAME: ${{ matrix.stream_name }}
           MATRIX_IMAGE_FLAVOR: ${{ matrix.image_flavor }}
+          MATRIX_ARCH: ${{ matrix.arch }}
         run: |
           echo ${MATRIX_IMAGE_NAME}
           echo ${MATRIX_STREAM_NAME}
           echo ${MATRIX_IMAGE_FLAVOR}
+          echo ${MATRIX_ARCH}
