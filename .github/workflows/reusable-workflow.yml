@@ -17,7 +17,7 @@ on:
         type: string
       architectures:
         description: "JSON string of architectures to build: '[amd64, arm64]'"
-        default: "amd64"
+        default: '["amd64"]'
         required: false
         type: string
 
