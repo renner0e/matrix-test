@@ -11,7 +11,6 @@ set -euox pipefail
 jq -cn \
   --argjson base_names "$IMAGES" \
   --argjson image_flavors "$IMAGE_FLAVORS" \
-  --argjson stream_name "$STREAM_NAME" \
   --argjson stream_name "$(jq -R . <<< "$STREAM_NAME" || echo "$STREAM_NAME")" \
   --argjson architectures "$ARCHITECTURES" \
   '
