@@ -52,7 +52,7 @@ jobs:
           echo "matrix=${MATRIX}" >> $GITHUB_OUTPUT
 
   build_container:
-    name: ${{ matrix.image_name }} (${{ matrix.architecture }})
+    name: ${{ matrix.image_name }}-${{ matrix.image_flavor }} (${{ matrix.architecture }})
     needs: generate_matrix
     strategy:
       fail-fast: false
