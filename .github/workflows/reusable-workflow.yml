@@ -1,0 +1,88 @@
+name: Reusable Workflow
+on:
+  workflow_call:
+    inputs:
+      image_flavors:
+        description: "JSON string of flavors to build, '[main, nvidia-open]'"
+        default: "['main','nvidia-open']"
+        type: string
+      image_names:
+        description: "JSON string of Image Name: '[aurora, aurora-dx]"
+        required: true
+        default: aurora
+        type: string
+      stream_name:
+        description: "The Fedora Version: stable, or latest"
+        required: true
+        type: string
+      architectures:
+        description: "JSON string of architectures to build: '[amd64, arm64]'"
+        default: "amd64"
+        required: false
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}-${{ inputs.image_names }}-${{ inputs.stream_name }}
+  cancel-in-progress: true
+
+jobs:
+  generate_matrix:
+    runs-on: ubuntu-slim
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set matrix
+        id: set-matrix
+        env:
+          IMAGES: "${{ inputs.image_names }}"
+          IMAGE_FLAVORS: "${{ inputs.image_flavors }}"
+          STREAM_NAME: "${{ inputs.stream_name }}"
+          ARCHITECTURES: "${{ inputs.architectures }}"
+        run: |
+          matrix.sh
+
+          echo "matrix=${MATRIX}" >> $GITHUB_OUTPUT
+
+  build_container:
+    name: ${{ matrix.base_name }}:${{ matrix.stream_name }}-${{ matrix.architecture }}
+    needs: generate_matrix
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.generate_matrix.outputs.matrix) }}
+    runs-on: ${{ matrix.architecture == 'amd64' && 'ubuntu-26.04' || 'ubuntu-26.04-arm' }}
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+
+    continue-on-error: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install Just
+        run: |
+          /home/linuxbrew/.linuxbrew/bin/brew install just
+          echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
+
+      - name: Image Name
+        shell: bash
+        env:
+          MATRIX_BASE_NAME: ${{ matrix.base_name }}
+          MATRIX_STREAM_NAME: ${{ matrix.stream_name }}
+          MATRIX_IMAGE_FLAVOR: ${{ matrix.image_flavor }}
+        run: |
+          IMAGE_NAME="$(just image_name \
+                      --image ${MATRIX_BASE_NAME} \
+                      --tag ${MATRIX_STREAM_NAME} \
+                      --flavor ${MATRIX_IMAGE_FLAVOR})"
