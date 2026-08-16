@@ -47,6 +47,8 @@ jobs:
         run: |
           MATRIX=$(bash matrix.sh)
 
+          echo $MATRIX | jq -r
+
           echo "matrix=${MATRIX}" >> $GITHUB_OUTPUT
 
   build_container:
