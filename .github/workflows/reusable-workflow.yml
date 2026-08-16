@@ -57,7 +57,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        architecture: ${{ fromJson(steps.set-matrix.outputs.matrix.architectures) }}
+        architecture : ${{ fromJson(needs.generate_matrix.outputs.matrix) }}
     runs-on: ${{ matrix.architecture == 'amd64' && 'ubuntu-26.04' || 'ubuntu-26.04-arm' }}
     permissions:
       contents: read
