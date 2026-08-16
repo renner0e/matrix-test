@@ -22,4 +22,4 @@ jobs:
     with:
       image_flavors: '["main", "nvidia-open"]'
       image_names: '["aurora", "aurora-dx"]'
-      stream_name: '["testing"]'
+      stream_name: "testing"
